@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep V8's heap small and predictable on the runner.
+  NODE_OPTIONS: --max-old-space-size=2048
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the shared packages
+        run: pnpm --filter @salestrace/shared-types build && pnpm --filter @salestrace/validation build && pnpm --filter @salestrace/attribution-engine build
+
+      - name: Type-check
+        run: |
+          pnpm --filter @salestrace/api exec tsc -p tsconfig.json --noEmit
+          pnpm --filter @salestrace/web exec tsc -p tsconfig.json --noEmit
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit and integration tests
+        run: |
+          pnpm --filter @salestrace/attribution-engine test
+          pnpm --filter @salestrace/api test
+          pnpm --filter @salestrace/web test
+
+      - name: Build the API
+        run: pnpm --filter @salestrace/api build
+
+      - name: Build the web app
+        run: pnpm --filter @salestrace/web build
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: verify
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: salestrace
+          POSTGRES_PASSWORD: salestrace
+          POSTGRES_DB: salestrace_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://salestrace:salestrace@localhost:5432/salestrace_test
+      AUTH_MODE: local
+      IP_HASH_PEPPER: ci-pepper-value-not-a-secret
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      COOKIE_SECURE: 'false'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install the Playwright browser
+        run: pnpm --filter @salestrace/web exec playwright install --with-deps chromium
+
+      - name: Apply the migrations
+        run: pnpm db:migrate
+
+      - name: Start the API
+        run: pnpm --filter @salestrace/api start &
+        working-directory: apps/api
+
+      - name: Start the web app
+        run: pnpm --filter @salestrace/web start &
+        working-directory: apps/web
+
+      - name: Wait for the stack
+        run: |
+          npx wait-on http://localhost:4000/api/v1/health http://localhost:3000 --timeout 120000
+
+      - name: Run the end-to-end tests
+        run: pnpm --filter @salestrace/web test:e2e
+
+      - name: Upload the Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
+          retention-days: 7
