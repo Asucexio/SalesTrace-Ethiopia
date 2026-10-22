@@ -1,0 +1,34 @@
+{
+  "name": "salestrace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SalesTrace Ethiopia - B2B SaaS for influencer marketing attribution and campaign analytics",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @salestrace/shared-types build && pnpm --filter @salestrace/validation build && pnpm --filter @salestrace/attribution-engine build && pnpm --filter @salestrace/api build && pnpm --filter @salestrace/web build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,sql,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,sql,css}\"",
+    "test": "pnpm -r test",
+    "test:api": "pnpm --filter @salestrace/api test",
+    "test:web": "pnpm --filter @salestrace/web test",
+    "test:engine": "pnpm --filter @salestrace/attribution-engine test",
+    "db:migrate": "pnpm --filter @salestrace/api db:migrate",
+    "db:seed": "pnpm --filter @salestrace/api db:seed",
+    "dev:api": "pnpm --filter @salestrace/api dev",
+    "dev:web": "pnpm --filter @salestrace/web dev"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "eslint": "^9.12.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.8.1"
+  }
+}
