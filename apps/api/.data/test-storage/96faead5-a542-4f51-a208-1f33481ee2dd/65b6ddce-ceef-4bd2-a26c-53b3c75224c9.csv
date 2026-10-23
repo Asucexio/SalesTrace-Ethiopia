@@ -1,0 +1,2 @@
+order_id,order_date,currency,subtotal,discount,tax,shipping,total,status,coupon_code,referral_code,customer_email
+EXT-1001,2026-03-06T09:00:00Z,ETB,,,,,1590.00,paid,MIRA10,,

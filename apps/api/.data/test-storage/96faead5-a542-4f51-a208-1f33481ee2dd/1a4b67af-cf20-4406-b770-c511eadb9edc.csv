@@ -1,0 +1,2 @@
+order_id,order_date,currency,subtotal,discount,tax,shipping,total,status,coupon_code,referral_code,customer_email
+EXT-LATE,2026-03-30T12:00:00Z,ETB,,,,,250.00,paid,,TESTC0DE01,

@@ -1,19 +1,32 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter, Manrope } from 'next/font/google';
 import { Toaster } from 'sonner';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SessionProvider } from '@/lib/session';
 import './globals.css';
 
+const fontSans = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const fontDisplay = Manrope({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
 const appName = process.env.NEXT_PUBLIC_APP_NAME ?? 'SalesTrace Ethiopia';
 
 export const metadata: Metadata = {
   title: {
-    default: appName,
+    default: `${appName} — Creator attribution for real orders`,
     template: `%s · ${appName}`,
   },
   description:
-    'Influencer campaign attribution and campaign analytics for brands and agencies in Ethiopia.',
+    'SalesTrace connects creator links, coupons and QR codes to imported orders, so Ethiopian brands and agencies can report attributed revenue, cost per attributed order and ROAS in ETB.',
 };
 
 export const viewport: Viewport = {
@@ -24,7 +37,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans text-foreground">
+      <body
+        className={`${fontSans.variable} ${fontDisplay.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+      >
         <SessionProvider>
           <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
           <Toaster richColors closeButton position="bottom-right" />
