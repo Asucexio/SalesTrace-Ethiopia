@@ -16,6 +16,7 @@ export const TRACKING_CODE_LENGTH = 10;
 
 /** Characters allowed in a generated coupon code. */
 const COUPON_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const BASE64URL_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 
 /**
  * Minimal structural type for the Web Crypto API.
@@ -77,12 +78,23 @@ export function generateCouponCode(prefix?: string, suffixLength = 6): string {
 
 /** Generate a random URL-safe token (session ids, invitation tokens, email verification tokens). */
 export function generateSecureToken(bytes = 32): string {
-  const buffer = randomBytes(bytes);
-  let binary = '';
-  for (const byte of buffer) {
-    binary += String.fromCharCode(byte);
+  const data = randomBytes(bytes);
+  let token = '';
+  for (let index = 0; index < data.length; index += 3) {
+    const first = data[index] ?? 0;
+    const second = data[index + 1];
+    const third = data[index + 2];
+
+    token += BASE64URL_ALPHABET[first >> 2];
+    token += BASE64URL_ALPHABET[((first & 0x03) << 4) | ((second ?? 0) >> 4)];
+    if (second !== undefined) {
+      token += BASE64URL_ALPHABET[((second & 0x0f) << 2) | ((third ?? 0) >> 6)];
+    }
+    if (third !== undefined) {
+      token += BASE64URL_ALPHABET[third & 0x3f];
+    }
   }
-  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return token;
 }
 
 /** Generate a UUID v4. */
