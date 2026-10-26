@@ -11,6 +11,7 @@ const navigation = [
   { href: '#product', label: 'Product' },
   { href: '#how-it-works', label: 'How it works' },
   { href: '#principles', label: 'Principles' },
+  { href: '#pricing', label: 'Pricing' },
 ];
 
 export function SiteHeader({ appName }: { appName: string }) {
