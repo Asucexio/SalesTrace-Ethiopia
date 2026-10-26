@@ -19,6 +19,7 @@ import {
 
 import { AttributionPreview } from '@/components/landing/attribution-preview';
 import { BrandMark } from '@/components/landing/brand-mark';
+import { PricingSection } from '@/components/landing/pricing-section';
 import { SiteHeader } from '@/components/landing/site-header';
 import { Button } from '@/components/ui/button';
 
@@ -167,6 +168,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        <PricingSection />
+
         <section className="border-b border-border">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
             <div className="flex flex-col gap-6 border-y border-primary/20 bg-accent/45 px-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
@@ -182,7 +185,7 @@ export default function HomePage() {
           <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
             <div className="max-w-sm"><div className="flex items-center gap-2.5"><BrandMark className="h-8 w-8" /><span className="text-sm font-semibold">{appName}</span></div><p className="mt-3 text-sm leading-6 text-muted-foreground">Creator campaign attribution for brands and agencies in Ethiopia.</p></div>
             <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted-foreground" aria-label="Footer">
-              <a href="#product" className="hover:text-foreground">Product</a><a href="#how-it-works" className="hover:text-foreground">How it works</a><a href="#principles" className="hover:text-foreground">Principles</a><Link href="/login" className="hover:text-foreground">Sign in</Link>
+              <a href="#product" className="hover:text-foreground">Product</a><a href="#how-it-works" className="hover:text-foreground">How it works</a><a href="#principles" className="hover:text-foreground">Principles</a><a href="#pricing" className="hover:text-foreground">Pricing</a><Link href="/login" className="hover:text-foreground">Sign in</Link>
             </nav>
           </div>
           <div className="flex flex-col justify-between gap-2 border-t border-border pt-5 text-xs text-muted-foreground sm:flex-row"><p>&copy; {new Date().getFullYear()} {appName}. All rights reserved.</p><p>Attributed revenue and ROAS. Not ROI.</p></div>
