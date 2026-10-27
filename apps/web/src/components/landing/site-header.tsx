@@ -6,6 +6,7 @@ import { ArrowRight, Menu, X } from 'lucide-react';
 
 import { BrandMark } from '@/components/landing/brand-mark';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navigation = [
   { href: '#product', label: 'Product' },
@@ -55,10 +56,11 @@ export function SiteHeader({ appName }: { appName: string }) {
         </nav>
 
         <div className="hidden items-center gap-1 md:flex">
+          <ThemeToggle />
           <Button asChild variant="ghost" size="sm">
             <Link href="/login">Sign in</Link>
           </Button>
-          <Button asChild size="sm">
+          <Button asChild size="sm" variant="gradient">
             <Link href="/signup">
               Create account
               <ArrowRight aria-hidden="true" />
@@ -66,18 +68,20 @@ export function SiteHeader({ appName }: { appName: string }) {
           </Button>
         </div>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          aria-expanded={open}
-          aria-controls="landing-mobile-navigation"
-          aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
-          onClick={() => setOpen((current) => !current)}
-        >
-          {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-        </Button>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-expanded={open}
+            aria-controls="landing-mobile-navigation"
+            aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
+            onClick={() => setOpen((current) => !current)}
+          >
+            {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </Button>
+        </div>
       </div>
 
       {open ? (
