@@ -106,7 +106,7 @@ export function SignInForm() {
           </Link>
         </div>
 
-        <Button type="submit" className="h-11 w-full" loading={submitting}>
+        <Button type="submit" className="h-11 w-full" variant="gradient" loading={submitting}>
           Sign in
         </Button>
       </form>
