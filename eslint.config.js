@@ -6,6 +6,7 @@
  */
 
 import tseslint from 'typescript-eslint';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default tseslint.config(
   {
@@ -21,6 +22,15 @@ export default tseslint.config(
     ],
   },
   ...tseslint.configs.recommended,
+  {
+    ...nextPlugin.flatConfig.coreWebVitals,
+    files: ['apps/web/**/*.{js,jsx,ts,tsx}'],
+    settings: {
+      next: {
+        rootDir: 'apps/web/',
+      },
+    },
+  },
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',

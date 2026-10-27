@@ -22,7 +22,6 @@ import { BrandMark } from '@/components/landing/brand-mark';
 import { PricingSection } from '@/components/landing/pricing-section';
 import { SiteHeader } from '@/components/landing/site-header';
 import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME ?? 'SalesTrace Ethiopia';
 
@@ -105,12 +104,10 @@ export default function HomePage() {
                 ))}
               </ul>
             </div>
-            <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-600/20 blur-2xl" />
-              <div className="relative overflow-hidden rounded-2xl border border-border/50 shadow-2xl shadow-primary/10">
-                <img src="/dashboard-preview.jpg" alt="Analytics dashboard preview showing campaign performance metrics" className="h-full w-full object-cover" />
+              <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-600/20 blur-2xl" />
+                <AttributionPreview />
               </div>
-            </div>
           </div>
         </section>
 
