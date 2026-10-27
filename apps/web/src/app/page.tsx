@@ -78,20 +78,22 @@ export default function HomePage() {
       <SiteHeader appName={appName} />
 
       <main id="main" className="flex-1">
-        <section className="border-b border-border bg-[linear-gradient(180deg,hsl(var(--muted)/0.55),transparent_78%)]">
-          <div className="mx-auto grid w-full max-w-6xl gap-12 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1fr_0.88fr] lg:items-center lg:gap-16 lg:px-8 lg:py-24">
+        <section className="relative overflow-hidden border-b border-border">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,hsl(var(--primary)/0.15),transparent)] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,hsl(var(--primary)/0.25),transparent)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(var(--background)),transparent_70%)]" />
+          <div className="relative mx-auto grid w-full max-w-6xl gap-12 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1fr_0.88fr] lg:items-center lg:gap-16 lg:px-8 lg:py-24">
             <div className="max-w-2xl">
               <p className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-primary">
                 <span className="h-px w-7 bg-primary" /> Creator campaign measurement for Ethiopian commerce
               </p>
-              <h1 className="max-w-xl text-[2.65rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl lg:text-[3.5rem]">
-                See which creator activity is <span className="text-primary">linked to real orders.</span>
+              <h1 className="max-w-xl text-[2.65rem] font-semibold leading-[1.08] tracking-[-0.05em] sm:text-5xl lg:text-[3.8rem]">
+                See which creator activity is <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">linked to real orders.</span>
               </h1>
               <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 Connect creator links, coupon codes and QR scans to imported sales. Review the attribution rules and report revenue, cost per attributed order and ROAS in ETB.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg">
+                <Button asChild size="lg" variant="gradient">
                   <Link href="/signup">Create an account <ArrowRight aria-hidden="true" /></Link>
                 </Button>
                 <Button asChild size="lg" variant="outline"><Link href="/login">Sign in</Link></Button>
